@@ -1,25 +1,23 @@
 package base.domain;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @MappedSuperclass
-public class BaseEntity<E extends Serializable> {
+public abstract class BaseEntity<ID extends Serializable> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private E id;
+    private ID id;
 
-    private boolean isDeleted;
+    @Column(columnDefinition = "tinyint(1)")
+    private Boolean isDeleted;
 
-    public E getId() {
+    public ID getId() {
         return id;
     }
 
-    public void setId(E id) {
+    public void setId(ID id) {
         this.id = id;
     }
 
@@ -27,7 +25,7 @@ public class BaseEntity<E extends Serializable> {
         return isDeleted;
     }
 
-    public void setDeleted(boolean deleted) {
+    public void setDeleted(Boolean deleted) {
         isDeleted = deleted;
     }
 }
