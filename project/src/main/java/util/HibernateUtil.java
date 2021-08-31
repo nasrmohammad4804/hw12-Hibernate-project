@@ -6,16 +6,20 @@ import javax.persistence.Persistence;
 public class HibernateUtil {
 
 
-    private static class CreateEntityManager {
+    private static EntityManagerFactory entityManagerFactory;
 
-
-        private static final EntityManagerFactory entityManagerFactory = Persistence.
-                createEntityManagerFactory("default");
+    private HibernateUtil() {
 
     }
 
     public static EntityManagerFactory entityManagerFactory() {
 
-        return CreateEntityManager.entityManagerFactory;
+        if (entityManagerFactory == null)
+            synchronized (HibernateUtil.class) {
+
+                entityManagerFactory = Persistence.createEntityManagerFactory("default");
+            }
+
+        return entityManagerFactory;
     }
 }
